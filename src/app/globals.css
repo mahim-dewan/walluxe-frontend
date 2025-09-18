@@ -4,7 +4,7 @@
 :root {
   background-color: #ebebeb;
   color :#2d3436 ;
-  
+  font-family: var(--font-inter);
 }
 
 
@@ -18,19 +18,31 @@ h1, h2, h3, h4, h5, h6{
 @theme {
    /* Colors  */
    --color-primary:#d63031;
-   --color-secondary:#5E936C;
+   --color-secondary:#14b879;
    --color-dark:#2d3436;
    --color-light:#ebebeb;
    --color-gray:#d1d5dc;
 
    /* Fonts  */
    --font-saira:var(--font-saira);
+   --font-inter:var(--font-inter);
 
    --breakpoint-3xl: 110rem;
 }
 
 @layer components{
   .btn-primary{
-    @apply bg-primary font-saira font-semibold text-lg text-light px-4 py-2 rounded-lg hover:bg-[#b81414] active:bg-[#b81414]
+    @apply bg-primary font-saira font-semibold text-lg xl:text-xl! text-light cursor-pointer px-4 py-2 rounded-lg hover:bg-[#b81414] active:bg-[#b81414]
+  }
+  .btn-secondary{
+    @apply bg-secondary font-saira font-semibold text-lg xl:text-xl! text-light cursor-pointer px-4 py-2 rounded-lg hover:bg-[#2e946d] active:bg-[#2e946d]
+  }
+
+  .title{
+    @apply py-4 text-center md:text-left md:px-6 lg:text-4xl! 3xl:text-6xl!
+  }
+
+  .text-para{
+    @apply 2xl:text-2xl!
   }
 }

@@ -5,7 +5,7 @@ import Logo from "./Logo";
 
 const Header = () => {
   return (
-    <header className="flex items-center justify-between flex-wrap px-5 py-2 border-b border-gray bg-light w-full sticky top-0 left-0 z-40">
+    <header className="flex items-center justify-between flex-wrap px-2 py-2 border-b border-gray bg-light w-full sticky top-0 left-0 z-40">
       <Logo />
 
       {/* Menubar (Only Tablet/Desktop) */}

@@ -1,6 +1,11 @@
 import Image from "next/image";
 import heroImg from "./../../public/hero-img.jpg";
 import Link from "next/link";
+import RecentWork from "@/components/Home/RecentWork";
+import OurTeam from "@/components/Home/OurTeam";
+import ServiceAreaMap from "@/components/Home/ServiceAreaMap";
+import FaqAccordion from "@/components/Home/FaqAccordion";
+import NewsLetter from "@/components/Home/NewsLetter";
 
 const features = [
   { url: "/hero-section/completed.png", title: "5000+ Walls Completed" },
@@ -19,8 +24,6 @@ export default function Home() {
           <Image
             alt="hero-img"
             src={heroImg}
-            width={1000}
-            height={1000}
             placeholder="blur"
             className="relative rounded-xl rounded-tl-4xl lg:rounded-tl-[60px] z-10"
           />
@@ -31,7 +34,7 @@ export default function Home() {
           <h1 className="lg:text-5xl! 3xl:text-8xl!">
             Your Walls Your Story Our Craft.
           </h1>
-          <p className="lg:py-5 2xl:text-2xl!">
+          <p className="lg:py-5 text-para">
             We create premium media walls and feature walls that redefine
             interiors. Designed for elegance. Built for impact.
           </p>
@@ -57,6 +60,28 @@ export default function Home() {
           </span>
         ))}
       </div>
+
+      {/* Recent five works  */}
+      <RecentWork />
+
+      {/* Team Members  */}
+      <OurTeam />
+
+      {/* Service Area Map & Cities  */}
+      <ServiceAreaMap />
+
+      {/* FAQ Accordion  */}
+      <FaqAccordion />
+
+      {/* CTA Button */}
+      <div className="flex">
+        <Link href={"/"} className="btn-primary mx-auto text-para">
+          Get a free consultation
+        </Link>
+      </div>
+
+      {/* News Letter */}
+      <NewsLetter />
     </div>
   );
 }

@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${saira.variable} ${roboto.variable}`}
+        className={`${inter.className} ${inter.variable} ${saira.variable} ${roboto.variable}`}
       >
         <Header />
         <main className="p-4">{children}</main>
