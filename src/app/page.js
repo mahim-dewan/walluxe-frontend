@@ -1,11 +1,11 @@
 import Image from "next/image";
 import heroImg from "./../../public/hero-img.jpg";
 import Link from "next/link";
-import RecentWork from "@/components/Home/RecentWork";
-import OurTeam from "@/components/Home/OurTeam";
-import ServiceAreaMap from "@/components/Home/ServiceAreaMap";
-import FaqAccordion from "@/components/Home/FaqAccordion";
-import NewsLetter from "@/components/Home/NewsLetter";
+import RecentWork from "@/components/home/RecentWork";
+import OurTeam from "@/components/home/OurTeam";
+import ServiceAreaMap from "@/components/home/ServiceAreaMap";
+import FaqAccordion from "@/components/home/FaqAccordion";
+import NewsLetter from "@/components/home/NewsLetter";
 
 const features = [
   { url: "/hero-section/completed.png", title: "5000+ Walls Completed" },
@@ -75,7 +75,7 @@ export default function Home() {
 
       {/* CTA Button */}
       <div className="flex">
-        <Link href={"/"} className="btn-primary mx-auto text-para">
+        <Link href={"/contact"} className="btn-primary mx-auto text-para">
           Get a free consultation
         </Link>
       </div>

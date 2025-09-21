@@ -8,6 +8,7 @@ import {
 } from "@react-google-maps/api";
 import { Badge } from "../shadcn/ui/badge";
 import { MapPinCheckInside } from "lucide-react";
+import Loader from "../reuseable/Loader";
 
 const center = { lat: 51.3721, lng: -0.1004 }; // Croydon
 
@@ -56,7 +57,10 @@ export default function ServiceAreaMap() {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY, // ✅ put API key in .env
   });
 
-  if (!isLoaded) return <p>Loading map...</p>;
+  if (!isLoaded)
+    return (
+      <Loader color={"#14b879"} size={"40"} speed={"0.80"}/>
+    );
 
   return (
     <div className="my-10 md:flex items-start justify-around">
