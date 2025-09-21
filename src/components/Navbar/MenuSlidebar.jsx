@@ -51,8 +51,9 @@ const MenuSlidebar = () => {
             </SheetClose>
           </SheetTitle>
         </SheetHeader>
+
         <div>
-          <NavigationMenu viewPortClass="top-10 left-22">
+          <NavigationMenu viewPortClass="top-16 left-0">
             <NavigationMenuList className={"flex flex-col items-start"}>
               <NavigationMenuItem>
                 <NavigationMenuLink asChild className={isActive("/")}>
@@ -69,8 +70,8 @@ const MenuSlidebar = () => {
                 >
                   Services
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className={"shadow-md"}>
-                  <ul className="w-[200px] ">
+                <NavigationMenuContent className={"shadow-md bg-light"}>
+                  <ul className="w-[200px]">
                     <li className="active:bg-gray rounded-md p-2 cursor-pointer">
                       <Link href={"/services/media-wall"}>
                         Media Wall Installation

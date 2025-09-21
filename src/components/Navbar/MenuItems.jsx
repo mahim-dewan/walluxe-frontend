@@ -23,17 +23,22 @@ const MenuItems = () => {
   };
 
   return (
-    <NavigationMenu viewPortClass={"left-0"}>
+    <NavigationMenu viewPortClass={"left-0"} className={"text-base"}>
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={isActive("/")}>
-            <Link href={"/"}>Home</Link>
+            <Link href={"/"} className="text-base xl:text-lg">
+              Home
+            </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuTrigger
-            className={`cursor-pointer ${isActive("/services", true)}`}
+            className={`cursor-pointer text-base xl:text-lg ${isActive(
+              "/services",
+              true
+            )}`}
           >
             Services
           </NavigationMenuTrigger>
@@ -41,13 +46,13 @@ const MenuItems = () => {
           <NavigationMenuContent className={"bg-light shadow-md text-dark"}>
             <ul className="w-[200px] ">
               <li className="hover:bg-gray rounded-md p-2 cursor-pointer">
-                <Link href={"/services/media-wall"}>
+                <Link href={"/services/media-wall"} className="text-base ">
                   Media Wall Installation
                 </Link>
               </li>
 
               <li className="hover:bg-gray rounded-md p-2 cursor-pointer">
-                <Link href={"/services/feature-wall"}>
+                <Link href={"/services/feature-wall"} className="text-base ">
                   Feature Wall Installation
                 </Link>
               </li>
@@ -57,19 +62,25 @@ const MenuItems = () => {
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={isActive("/gallery")}>
-            <Link href={"/"}>Gallery</Link>
+            <Link href={"/"} className="text-base xl:text-lg">
+              Gallery
+            </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={isActive("/blogs", true)}>
-            <Link href={"/"}>Blogs</Link>
+            <Link href={"/"} className="text-base xl:text-lg">
+              Blogs
+            </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={`btn-primary text-md`}>
-            <Link href={"/"}>Book Now</Link>
+            <Link href={"/"} className="text-base 2xl:text-lg">
+              Book Now
+            </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
