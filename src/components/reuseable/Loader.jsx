@@ -2,9 +2,14 @@ import React from "react";
 import { DotSpinner } from "ldrs/react";
 import "ldrs/react/DotSpinner.css";
 
-const Loader = ({ color, size, speed }) => {
+const Loader = ({
+  color = "#14b879",
+  size = "40",
+  speed = "0.80",
+  className,
+}) => {
   return (
-    <div className="h-96 flex items-center justify-center">
+    <div className={`h-96 flex items-center justify-center ${className}`}>
       <DotSpinner size={size} speed={speed} color={color} />
     </div>
   );

@@ -62,7 +62,7 @@ const MenuItems = () => {
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={isActive("/gallery")}>
-            <Link href={"/"} className="text-base xl:text-lg">
+            <Link href={"/gallery"} className="text-base xl:text-lg">
               Gallery
             </Link>
           </NavigationMenuLink>

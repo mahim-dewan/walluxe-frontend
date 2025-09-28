@@ -6,6 +6,8 @@ import OurTeam from "@/components/home/OurTeam";
 import ServiceAreaMap from "@/components/home/ServiceAreaMap";
 import FaqAccordion from "@/components/home/FaqAccordion";
 import NewsLetter from "@/components/home/NewsLetter";
+import { Suspense } from "react";
+import Loader from "@/components/reuseable/Loader";
 
 const features = [
   { url: "/hero-section/completed.png", title: "5000+ Walls Completed" },
@@ -15,7 +17,7 @@ const features = [
 
 export default function Home() {
   return (
-    <div>
+    <div className="p-4">
       {/* Hero Section  */}
       <div className="md:flex items-start 3xl:items-center justify-around flex-row-reverse gap-6 p-6">
         {/* Hero Image  */}
@@ -62,7 +64,9 @@ export default function Home() {
       </div>
 
       {/* Recent five works  */}
-      <RecentWork />
+      <Suspense fallback={<Loader />}>
+        <RecentWork />
+      </Suspense>
 
       {/* Team Members  */}
       <OurTeam />
@@ -80,7 +84,7 @@ export default function Home() {
         </Link>
       </div>
 
-      {/* News Letter */}
+      {/* Subscribe News Letter */}
       <NewsLetter />
     </div>
   );

@@ -2,6 +2,7 @@ import { Inter, Roboto_Mono, Saira } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/navbar/Header";
 import Footer from "@/components/footer/Footer";
+import { Toaster } from "sonner";
 
 // Fonts
 export const inter = Inter({
@@ -38,8 +39,9 @@ export default function RootLayout({ children }) {
         className={`${inter.className} ${inter.variable} ${saira.variable} ${roboto.variable}`}
       >
         <Header />
-        <main className="p-4 min-h-screen">{children}</main>
-        <Footer/>
+        <main className=" min-h-screen max-w-[1860px] mx-auto">{children}</main>
+        <Toaster richColors position="bottom-left" />
+        <Footer />
       </body>
     </html>
   );

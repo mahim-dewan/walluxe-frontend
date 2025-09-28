@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -9,75 +9,40 @@ import {
 } from "@/components/shadcn/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
-
-const teamMembers = [
-  {
-    name: "Yeamin Sagor",
-    imgUrl:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    designation: "Lead Designer",
-  },
-  {
-    name: "Hamidur Khan",
-    imgUrl:
-      "https://plus.unsplash.com/premium_photo-1664476788423-7899ac87bd7f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWFsZXxlbnwwfHwwfHx8MA%3D%3D",
-    designation: "Project Manager",
-  },
-  {
-    name: "Arif Rahman",
-    imgUrl:
-      "https://images.unsplash.com/photo-1672748341520-6a839e6c05bb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHdvcmtlcnxlbnwwfHwwfHx8MA%3D%3D",
-    designation: "3D Visualizer",
-  },
-  {
-    name: "Hafiz Islam",
-    imgUrl:
-      "https://images.unsplash.com/photo-1566753323558-f4e0952af115?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWFsZXxlbnwwfHwwfHx8MA%3D%3D",
-    designation: "Interior Specialist",
-  },
-  {
-    name: "Tanvir Hasan",
-    imgUrl:
-      "https://images.unsplash.com/photo-1541577141970-eebc83ebe30e?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    designation: "Site Engineer",
-  },
-  {
-    name: "Sabit Rahman",
-    imgUrl:
-      "https://images.unsplash.com/photo-1672748341520-6a839e6c05bb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHdvcmtlcnxlbnwwfHwwfHx8MA%3D%3D",
-    designation: "3D Visualizer",
-  },
-  {
-    name: "Rafiq Chowdhury",
-    imgUrl:
-      "https://images.unsplash.com/photo-1596075780750-81249df16d19?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjN8fG1hbGV8ZW58MHx8MHx8fDA%3D",
-    designation: "Construction Supervisor",
-  },
-  {
-    name: "Syed Shadin",
-    imgUrl:
-      "https://plus.unsplash.com/premium_photo-1677009540609-cd6208fc7cdb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTAxfHxtYWxlfGVufDB8fDB8fHww",
-    designation: "Creative Director",
-  },
-  {
-    name: "Imran Hossain",
-    imgUrl:
-      "https://plus.unsplash.com/premium_photo-1690295364571-d2d06159e0a7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTYxfHxtYWxlfGVufDB8fDB8fHww",
-    designation: "Digital Media Specialist",
-  },
-  {
-    name: "Jony Sakin Ahmed",
-    imgUrl:
-      "https://plus.unsplash.com/premium_photo-1669782051589-4f828261b1c2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTczfHxtYWxlfGVufDB8fDB8fHww",
-    designation: "Client Coordinator",
-  },
-];
+import { api } from "@/lib/api";
+import ErrorMessage from "../reuseable/ErrorMessage";
+import InfoMessage from "../reuseable/InfoMessage";
+import Loader from "../reuseable/Loader";
 
 const OurTeam = () => {
+  const [loading, setLoading] = useState(true);
+  const [members, setMembers] = useState([]);
+  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    api.getAllTeamMembers().then((data) => {
+      setMembers(data?.data);
+      setSuccess(data?.success);
+      setMessage(data?.message);
+      setLoading(false);
+    });
+  }, []);
+
+  // Loading state handle
+  if (loading) return <Loader />;
+
+  // Error state handle
+  if (!success)
+    return <ErrorMessage label={"team members"} message={message} />;
+
+  // Informational message handle
+  if (!members || members?.length === 0)
+    return <InfoMessage message={"No team members found"} />;
+
   return (
     <div className="">
-      <h2 className="title md:text-center! -mb-10">Our Team</h2>
-
+      <h3 className="title md:text-center! -mb-10">Our Team</h3>
       <Carousel
         opts={{
           align: "start",
@@ -92,15 +57,15 @@ const OurTeam = () => {
       >
         <CarouselPrevious className={"hidden md:flex"} />
         <CarouselContent className={""}>
-          {teamMembers.map((member, index) => (
+          {members?.map((member, index) => (
             <CarouselItem
               key={index}
               className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6"
             >
               <div className="p-1 h-64 text-light  flex items-center flex-col justify-around rounded-md relative">
                 <Image
-                  alt={member.name}
-                  src={member.imgUrl}
+                  alt={member?.name}
+                  src={member?.image}
                   width={1000}
                   height={1000}
                   className="w-30 h-30 rounded-full"
