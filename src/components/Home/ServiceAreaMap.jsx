@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   GoogleMap,
   Marker,
@@ -9,8 +9,9 @@ import {
 import { Badge } from "../shadcn/ui/badge";
 import { MapPinCheckInside } from "lucide-react";
 import Loader from "../reuseable/Loader";
+import { api } from "@/lib/api";
 
-const center = { lat: 51.3721, lng: -0.1004 }; // Croydon
+const center = { lat: 23.800501632148926, lng: 90.41796523929308 }; // Croydon
 
 const containerStyle = {
   width: "100%",
@@ -29,38 +30,20 @@ const options = {
   visible: true,
 };
 
-const serviceAreas = [
-  "Croydon",
-  "London",
-  "Birmingham",
-  "Manchester",
-  "Leeds",
-  "Liverpool",
-  "Sheffield",
-  "Bristol",
-  "Nottingham",
-  "Leicester",
-  "Coventry",
-  "Kingston upon Hull",
-  "Bradford",
-  "Cardiff",
-  "Glasgow",
-  "Edinburgh",
-  "Southampton",
-  "Reading",
-  "Derby",
-  "Newcastle upon Tyne",
-];
-
 export default function ServiceAreaMap() {
+  const [areas, setAreas] = useState([]);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY, // ✅ put API key in .env
   });
 
-  if (!isLoaded)
-    return (
-      <Loader color={"#14b879"} size={"40"} speed={"0.80"}/>
-    );
+  useEffect(() => {
+    api.getServiceAreas().then((data) => {
+      setAreas(data?.data);
+      setMessage(data?.message);
+    });
+  }, []);
+
+  if (!isLoaded) return <Loader color={"#14b879"} size={"40"} speed={"0.80"} />;
 
   return (
     <div className="my-10 md:flex items-start justify-around">
@@ -73,22 +56,22 @@ export default function ServiceAreaMap() {
           interior decorator will walk you through our service options.
         </p>
         <div className="flex flex-wrap items-center justify-start gap-2 h-30 md:h-64 overflow-auto rounded-md my-2 ">
-          {serviceAreas.map((area, i) => (
+          {areas?.map((area, i) => (
             <Badge key={i} className={"text-light bg-secondary md:text-lg"}>
               <MapPinCheckInside />
-              {area}
+              {area?.name}
             </Badge>
           ))}
         </div>
       </div>
       {/* Map  */}
       <div className="flex-1">
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={6}>
+        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={11}>
           {/* Marker for Croydon */}
-          <Marker position={center} label="Croydon" />
+          <Marker position={center} label="Dhaka" />
 
           {/* Circle for ~2–3 hr driving distance (~180km radius) */}
-          <Circle center={center} radius={180000} options={options} />
+          <Circle center={center} radius={12000} options={options} />
         </GoogleMap>
       </div>
     </div>

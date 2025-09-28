@@ -11,7 +11,10 @@ Built with **Next.js**, **Tailwind CSS**, and **shadcn/ui** for a modern, respon
 - [Tailwind CSS](https://tailwindcss.com/) – utility-first CSS framework
 - [shadcn/ui](https://ui.shadcn.com/) – accessible UI components
 - [Lucide Icons](https://lucide.dev/) – icons for UI
+- [LDRS](https://uiball.com/ldrs/) – Loader spinner
 ---
+
+## 
 
 
 
