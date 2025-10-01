@@ -8,15 +8,15 @@ const packageItems = [
     _id: 1,
     title: "Basic Feature Wall",
     subtitle: "Simple & Affordable",
-    description:
-      "An entry-level package for homeowners who want a clean and modern look without breaking the bank.",
     price: 5000,
     currency: "BDT",
     image:
       "https://images.squarespace-cdn.com/content/v1/6854409c4933b941d0697a92/1751151963320-EB0QFEDDOKR5KVE60WKS/entry-elegance-fireplace-wall-miami.png?format=300w",
     features: ["Plain textured finish", "Moisture resistant coating", ,],
-    category: "Wall Design",
+    category: "Feature Wall",
     isPopular: false,
+    duration: "3 days",
+    materials: ["Italian Marble", "Gypsum Board"],
   },
   {
     _id: 2,
@@ -36,6 +36,13 @@ const packageItems = [
     ],
     category: "Wall Design",
     isPopular: false,
+    duration: "3 days",
+    materials: [
+      "Italian Marble",
+      "Gypsum Board",
+      "Italian Marble",
+      "Gypsum Board",
+    ],
   },
   {
     _id: 3,
@@ -59,6 +66,8 @@ const packageItems = [
     ],
     category: "Wall Design",
     isPopular: true,
+    duration: "3 days",
+    materials: ["Italian Marble", "Gypsum Board", "Gypsum Board"],
   },
   {
     _id: 4,
@@ -87,6 +96,8 @@ const packageItems = [
     ],
     category: "Wall Design",
     isPopular: true,
+    duration: "3 days",
+    materials: ["Italian Marble", "Gypsum Board"],
   },
   {
     _id: 5,
@@ -107,6 +118,15 @@ const packageItems = [
     ],
     category: "Wall Design",
     isPopular: true,
+    duration: "3 days",
+    materials: [
+      "Italian Marble",
+      "Gypsum Board",
+      "Italian Marble",
+      "Gypsum Board",
+      "Italian Marble",
+      "Gypsum Board",
+    ],
   },
 ];
 
