@@ -32,14 +32,14 @@ h1, h2, h3, h4, h5, h6{
 
 @layer components{
   .btn-primary{
-    @apply bg-primary font-saira font-semibold text-lg xl:text-xl text-light cursor-pointer px-4 py-2 rounded-lg hover:bg-[#b81414] active:bg-[#b81414]
+    @apply bg-primary! font-saira font-semibold text-lg xl:text-xl text-light cursor-pointer px-4 py-2 rounded-lg hover:bg-[#b81414]! active:bg-[#b81414]!
   }
   .btn-secondary{
-    @apply bg-secondary font-saira font-semibold text-lg xl:text-xl text-light cursor-pointer px-4 py-2 rounded-lg hover:bg-[#2e946d] active:bg-[#2e946d]
+    @apply bg-secondary! font-saira font-semibold text-lg xl:text-xl text-light cursor-pointer px-4 py-2 rounded-lg hover:bg-[#2e946d]! active:bg-[#2e946d]!
   }
 
   .title{
-    @apply py-4 text-center md:text-left md:px-6 lg:text-4xl! 3xl:text-6xl!
+    @apply py-4 text-center md:text-left md:px-6 lg:text-2xl! 3xl:text-3xl!
   }
 
   .text-para{

@@ -8,8 +8,8 @@ const WallTypes = ({ service, wallTypes }) => {
         We offer these types of {service} walls
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-2 w-fit mx-auto">
-        {wallTypes?.map((type) => (
-          <div className="flex items-center justify-start gap-2">
+        {wallTypes?.map((type, i) => (
+          <div key={i} className="flex items-center justify-start gap-2">
             <Check className="text-secondary" /> <span>{type}</span>
           </div>
         ))}

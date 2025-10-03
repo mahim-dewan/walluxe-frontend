@@ -15,8 +15,8 @@ const WhyUs = () => {
       <div className="my-5">
         <h3 className="title text-center">Why Us ?</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-2 w-fit mx-auto">
-          {reasons?.map((r) => (
-            <div className="flex items-center justify-start gap-2">
+          {reasons?.map((r, i) => (
+            <div key={i} className="flex items-center justify-start gap-2">
               <Check className="text-secondary" /> <span>{r}</span>
             </div>
           ))}

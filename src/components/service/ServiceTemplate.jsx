@@ -38,8 +38,8 @@ const ServiceTemplate = ({ children, cover, service, packageItems = [] }) => {
       </div>
 
       {/* Packages  */}
-      <h3 className="title text-start! px-4 pb-0 mt-5">Packages</h3>
-      <div className="grid md:grid-cols-2 xl:grid-cols-3 m-4 gap-4">
+      <h3 className="title text-start! px-4 mt-5">Packages</h3>
+      <div className="grid md:grid-cols-2 xl:grid-cols-3 p-1 gap-4">
         {packageItems?.map((packageItem) => (
           <PackageCard key={packageItem?._id} packageItem={packageItem} />
         ))}
