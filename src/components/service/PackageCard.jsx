@@ -87,7 +87,7 @@ const PackageCard = ({ packageItem }) => {
             <tr className="">
               <th className="text-left font-semibold  w-fit">Duration</th>
               <td className="px-2">:</td>
-              <td className="">{packageItem?.duration}</td>
+              <td className="">{packageItem?.duration} Days</td>
             </tr>
           </thead>
         </table>

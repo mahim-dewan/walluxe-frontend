@@ -1,39 +1,18 @@
 import React from "react";
 import { Button } from "../shadcn/ui/button";
+import { addMonths, format, subMonths } from "date-fns";
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+const CalendarHeader = ({ currentDate, setCurrentDate }) => {
+  const displayMonthAndYear = format(currentDate, "MMMM yyyy");
 
-const CalendarHeader = ({ month, setMonth, year, setYear }) => {
   // Handler for Next button
   const nextMonth = () => {
-    if (month === 11) {
-      setMonth(0);
-      setYear(year + 1);
-    } else {
-      setMonth(month + 1);
-    }
+    setCurrentDate(addMonths(currentDate, 1));
   };
+
   // Handler for Prev button
   const prevMonth = () => {
-    if (month === 0) {
-      setMonth(11);
-      setYear(year - 1);
-    } else {
-      setMonth(month - 1);
-    }
+    setCurrentDate(subMonths(currentDate, 1));
   };
 
   return (
@@ -44,10 +23,7 @@ const CalendarHeader = ({ month, setMonth, year, setYear }) => {
       >
         &lt;&lt;
       </Button>
-      <span className="font-bold mx-2">
-        <span className="px-1"> {months[month]}</span>{" "}
-        <span className="px-1">{year}</span>
-      </span>
+        <span className="px-1 font-bold mx-2"> {displayMonthAndYear}</span>{" "}
       <Button
         className={"bg-dark hover:bg-dark cursor-pointer text-light"}
         onClick={nextMonth}

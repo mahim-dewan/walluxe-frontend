@@ -15,7 +15,7 @@ const packageItems = [
     features: ["Plain textured finish", "Moisture resistant coating", ,],
     category: "Feature Wall",
     isPopular: false,
-    duration: "3 days",
+    duration: 7,
     materials: ["Italian Marble", "Gypsum Board"],
   },
   {
@@ -36,7 +36,7 @@ const packageItems = [
     ],
     category: "Wall Design",
     isPopular: false,
-    duration: "3 days",
+    duration: 3,
     materials: [
       "Italian Marble",
       "Gypsum Board",
@@ -66,7 +66,7 @@ const packageItems = [
     ],
     category: "Wall Design",
     isPopular: true,
-    duration: "3 days",
+    duration: 3,
     materials: ["Italian Marble", "Gypsum Board", "Gypsum Board"],
   },
   {
@@ -96,7 +96,7 @@ const packageItems = [
     ],
     category: "Wall Design",
     isPopular: true,
-    duration: "3 days",
+    duration: 3,
     materials: ["Italian Marble", "Gypsum Board"],
   },
   {
@@ -118,7 +118,7 @@ const packageItems = [
     ],
     category: "Wall Design",
     isPopular: true,
-    duration: "3 days",
+    duration: 3,
     materials: [
       "Italian Marble",
       "Gypsum Board",

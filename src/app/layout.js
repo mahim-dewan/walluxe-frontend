@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
       >
         <Header />
         <main className=" min-h-screen max-w-[1860px] mx-auto">{children}</main>
-        <Toaster richColors position="bottom-left" />
+        <Toaster richColors position={`top-right`} duration={3000} />
         <Footer />
       </body>
     </html>

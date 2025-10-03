@@ -30,9 +30,9 @@ const BookingDialogBox = ({ packageItem }) => {
         >
           <DialogHeader>
             <DialogTitle>Booking Form</DialogTitle>
-            <DialogDescription>
+            <DialogDescription asChild>
               {/* Booking Calendar  */}
-              <BookingCalendar />
+              <BookingCalendar packageItem={packageItem} />
             </DialogDescription>
           </DialogHeader>
 
