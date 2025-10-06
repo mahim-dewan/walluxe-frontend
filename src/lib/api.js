@@ -65,4 +65,24 @@ export const api = {
     const res = await axios.post("/api/subscribes", newSubscriber);
     return res.data;
   },
+
+  // Get packages of feature walls
+  getFeatureWallPackages: async () => {
+    try {
+      const res = await fetch(`${process.env.BASE_API}/packages/feature-walls`,{
+        next: { revalidate: 3600 }, // Revalidate time is 6h
+      })
+      const data = await res.json()
+      return data
+    } catch (err) {
+      // Server is OFF/ Down / Network error / CORS issue
+      if (err instanceof TypeError && err.message.includes("fetch")) {
+        return {
+          success: false,
+          message: "Server is unreachable. Please try again later.",
+          data: [],
+        };
+      }
+    }
+  },
 };
