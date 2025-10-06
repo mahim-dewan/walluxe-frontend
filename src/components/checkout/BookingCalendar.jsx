@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CalendarHeader from "./CalendarHeader";
 import StatusSign from "./StatusSign";
 import { toast } from "sonner";
@@ -38,18 +38,53 @@ const initialBookings = [
     city: "Aminbazar",
     address: "new road 3, mission golli, house no: 1",
   },
-  { id: 2, startDate: new Date("2025-10-15"), endDate: new Date("2025-10-22"), status: "pending", client: "John Smith" },
-  { id: 3, startDate: new Date("2025-10-24"), endDate: new Date("2025-10-27"), status: "booked" },
-  { id: 4, startDate: new Date("2025-11-01"), endDate: new Date("2025-11-08"), status: "pending" },
-  { id: 5, startDate: new Date("2025-11-21"), endDate: new Date("2025-11-24"), status: "booked", client: "Emily White" },
+  {
+    id: 2,
+    startDate: new Date("2025-10-15"),
+    endDate: new Date("2025-10-22"),
+    status: "pending",
+    client: "John Smith",
+  },
+  {
+    id: 3,
+    startDate: new Date("2025-10-24"),
+    endDate: new Date("2025-10-27"),
+    status: "booked",
+  },
+  {
+    id: 4,
+    startDate: new Date("2025-11-01"),
+    endDate: new Date("2025-11-08"),
+    status: "pending",
+  },
+  {
+    id: 5,
+    startDate: new Date("2025-11-21"),
+    endDate: new Date("2025-11-24"),
+    status: "booked",
+    client: "Emily White",
+  },
 ];
 
-const BookingCalendar = ({ packageItem }) => {
+const BookingCalendar = ({
+  packageItem,
+  newBookingData,
+  setNewBookingData,
+}) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
 
   const month = currentDate.getMonth();
   const year = currentDate.getFullYear();
+
+  useEffect(() => {
+    newBookingData?.startDate &&
+      newBookingData?.endDate &&
+      setSelectedDate({
+        startDate: newBookingData?.startDate,
+        endDate: newBookingData?.endDate,
+      });
+  }, []);
 
   /** -------------------
    *  Calendar Helpers
@@ -108,32 +143,46 @@ const BookingCalendar = ({ packageItem }) => {
     }
 
     setSelectedDate({ startDate, endDate });
+    setNewBookingData((prev) => ({
+      ...prev,
+      startDate,
+      endDate,
+      workingDays: packageItem?.duration,
+    }));
   };
 
   /** -------------------
    *  JSX Rendering
    *  ------------------*/
   return (
-    <div>
+    <div className="min-h-[55vh]">
+      <h3 className="text-base! text-left">Booking Date</h3>
       {/* Selected Date Info */}
       {selectedDate ? (
-        <p className="font-semibold">
+        <p className="font-semibold bg-secondary text-light inline-block px-2">
           Selected Date : {selectedDate.startDate} - {selectedDate.endDate}
         </p>
       ) : (
-        <p>Select an available date to start your project.</p>
+        <p className="text-left">
+          Select an available date to start your project.
+        </p>
       )}
 
       <div className="border p-2 rounded-lg my-2">
         {/* Calendar Header */}
-        <CalendarHeader currentDate={currentDate} setCurrentDate={setCurrentDate} />
+        <CalendarHeader
+          currentDate={currentDate}
+          setCurrentDate={setCurrentDate}
+        />
 
         {/* Weekday Labels */}
         <div className="grid grid-cols-7 border border-secondary font-semibold my-2 rounded-lg text-center">
           {daysName.map((d, i) => (
             <p
               key={i}
-              className={`${i === 0 && "bg-primary text-light rounded-lg"} py-2`}
+              className={`${
+                i === 0 && "bg-primary text-light rounded-lg"
+              } py-2`}
             >
               {d}
             </p>
@@ -155,8 +204,12 @@ const BookingCalendar = ({ packageItem }) => {
             );
 
             // Check active selected range
-            const startBook = selectedDate && parse(selectedDate.startDate, "dd-MM-yyyy", new Date());
-            const endBook = selectedDate && parse(selectedDate.endDate, "dd-MM-yyyy", new Date());
+            const startBook =
+              selectedDate &&
+              parse(selectedDate.startDate, "dd-MM-yyyy", new Date());
+            const endBook =
+              selectedDate &&
+              parse(selectedDate.endDate, "dd-MM-yyyy", new Date());
 
             const isActive =
               selectedDate &&
@@ -177,9 +230,22 @@ const BookingCalendar = ({ packageItem }) => {
                     : handleSelectDate(d);
                 }}
                 className={`border-secondary border text-dark cursor-pointer rounded-lg p-1 m-1
-                  ${(d.isSunday && !isPastDay) || (booking?.status === "booked" && !isPastDay) ? "bg-primary! border-none text-light cursor-not-allowed!" : ""}
-                  ${d.isPrevDay || isPastDay ? "bg-gray! text-dark/50! cursor-not-allowed! border-none" : ""}
-                  ${booking?.status === "pending" ? "bg-dark! cursor-not-allowed! text-light border-none" : ""}
+                  ${
+                    (d.isSunday && !isPastDay) ||
+                    (booking?.status === "booked" && !isPastDay)
+                      ? "bg-primary! border-none text-light cursor-not-allowed!"
+                      : ""
+                  }
+                  ${
+                    d.isPrevDay || isPastDay
+                      ? "bg-gray! text-dark/50! cursor-not-allowed! border-none"
+                      : ""
+                  }
+                  ${
+                    booking?.status === "pending"
+                      ? "bg-dark! cursor-not-allowed! text-light border-none"
+                      : ""
+                  }
                   ${isActive && !d.isPrevDay ? "text-light bg-secondary" : ""}
                 `}
               >
