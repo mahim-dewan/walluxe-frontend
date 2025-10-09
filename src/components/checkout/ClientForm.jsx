@@ -10,48 +10,23 @@ import {
 } from "../shadcn/ui/select";
 import { api } from "@/lib/api";
 
+/** -------------------
+ *  Input Fields Configuration
+ *  ------------------*/
 const inputItems = [
-  {
-    label: "Name",
-    placeholder: "Jone Doe",
-    name: "name",
-    type: "text",
-    required: true,
-  },
-  {
-    label: "Email",
-    placeholder: "jonedoe@gmail.com",
-    type: "email",
-    name: "email",
-    required: true,
-  },
-  {
-    label: "Phone",
-    placeholder: "+880 1896705698",
-    type: "number",
-    name: "phone",
-    required: true,
-  },
-  {
-    label: "Wall Size (square foot)",
-    placeholder: "120",
-    type: "number",
-    name: "wallSize",
-    required: true,
-  },
-  // {
-  //   label: "Road/House",
-  //   placeholder: "Mirpur-1, Amin road, House-55",
-  //   type: "text",
-  //   name: "house",
-  //   required: true,
-  // },
+  { label: "Name", placeholder: "Jone Doe", name: "name", type: "text", required: true },
+  { label: "Email", placeholder: "jonedoe@gmail.com", type: "email", name: "email", required: true },
+  { label: "Phone", placeholder: "+880 1896705698", type: "number", name: "phone", required: true },
+  { label: "Wall Size (square foot)", placeholder: "120", type: "number", name: "wallSize", required: true },
 ];
 
 const ClientForm = ({ newBookingData, setNewBookingData }) => {
   const [areas, setAreas] = useState(null);
   const [message, setMessage] = useState("");
 
+  /** -------------------
+   *  Fetch Service Areas
+   *  ------------------*/
   useEffect(() => {
     api.getServiceAreas().then((data) => {
       setAreas(data?.data);
@@ -59,7 +34,9 @@ const ClientForm = ({ newBookingData, setNewBookingData }) => {
     });
   }, []);
 
-  // On Change Handler
+  /** -------------------
+   *  Handle Input Change
+   *  ------------------*/
   const handleChange = (e) => {
     setNewBookingData((prev) => ({
       ...prev,
@@ -71,7 +48,7 @@ const ClientForm = ({ newBookingData, setNewBookingData }) => {
       <h3 className="text-base! text-left">Customer Information</h3>
       <form className="py-2 grid grid-cols-1 md:grid-cols-2 gap-2">
         {inputItems.map((item, i) => (
-          <div>
+          <div key={i}>
             <Label htmlFor={item?.label} className={"text-sm"}>
               {item?.label}{" "}
               <span className="text-primary">{item?.required && "*"}</span>
@@ -107,19 +84,30 @@ const ClientForm = ({ newBookingData, setNewBookingData }) => {
             </SelectTrigger>
 
             <SelectContent className={"bg-light text-dark border-dark/50"}>
-              {areas?.map((area) => (
+              {areas ? (
+                areas?.map((area) => (
+                  <SelectItem
+                    key={area?._id}
+                    className={"hover:bg-gray cursor-pointer"}
+                    value={area?.name}
+                  >
+                    {area?.name}
+                  </SelectItem>
+                ))
+              ) : (
                 <SelectItem
-                  key={area?._id}
+                  selected
+                  disabled
                   className={"hover:bg-gray cursor-pointer"}
-                  value={area?.name}
                 >
-                  {area?.name}
+                  Couldn't fetch areas
                 </SelectItem>
-              ))}
+              )}
             </SelectContent>
           </Select>
         </div>
 
+        {/* Road / House */}
         <div>
           <Label htmlFor="Road/House" className={"text-sm"}>
             Road/House
@@ -139,6 +127,7 @@ const ClientForm = ({ newBookingData, setNewBookingData }) => {
           />
         </div>
 
+        {/* Message */}
         <div className="md:col-span-2">
           <Label htmlFor="message" className={"py-1"}>
             Message

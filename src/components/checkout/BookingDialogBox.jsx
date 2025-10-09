@@ -16,32 +16,79 @@ import ClientForm from "./ClientForm";
 import { CalendarDays, Contact, ListCheck } from "lucide-react";
 import FinalCheck from "./FinalCheck";
 import StepsLine from "./StepsLine";
+import { api } from "@/lib/api";
+import Loader from "../reuseable/Loader";
+import BookingSuccessBox from "./BookingSuccessBox";
+import { toast } from "sonner";
 
+/** -------------------
+ *  Step Configuration
+ *  ------------------*/
 const allSteps = [
   { step: 1, title: "Booking Date", icon: <CalendarDays /> },
   { step: 2, title: "Customer Info", icon: <Contact /> },
   { step: 3, title: "Final Check", icon: <ListCheck /> },
 ];
 
-const BookingDialogBox = ({ packageItem }) => {
-  const [newBookingData, setNewBookingData] = useState({
-    startDate: "",
-    endDate: "",
-    name: "",
-    email: "",
-    phone: "",
-    area: "",
-    house: "",
-    wallSize: null,
-    message: "",
-  });
-  const [currentStep, setCurrentStep] = useState(allSteps[0].step);
+/** -------------------
+ *  Default Booking Data
+ *  ------------------*/
+const defaultBookingData = {
+  startDate: "",
+  endDate: "",
+  name: "",
+  email: "",
+  phone: "",
+  area: "",
+  house: "",
+  wallSize: "",
+  message: "",
+};
 
-  const handleConfirmBook = () => {
-    console.log(newBookingData);
+/** -------------------
+ *  Booking Dialog Component
+ *  ------------------*/
+const BookingDialogBox = ({ packageItem }) => {
+  const [open, setOpen] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [newBookingData, setNewBookingData] = useState(defaultBookingData);
+  const [currentStep, setCurrentStep] = useState(allSteps[0].step);
+  const [isLoading, setIsLoading] = useState(false);
+  const [createdBooking, setCreatedBooking] = useState(null);
+  console.log(createdBooking);
+
+  /** -------------------
+   *  Confirm Booking Handler
+   *  ------------------*/
+  const handleConfirmBook = async () => {
+    setIsLoading(true);
+
+    const finalBookingData = {
+      ...newBookingData,
+      packageId: packageItem?._id,
+      wallSize: Number(newBookingData?.wallSize),
+      costPerSF: packageItem?.price,
+      costTotal: packageItem?.price * newBookingData?.wallSize,
+    };
+
+    const res = await api.createBooking(finalBookingData);
+
+    if (res?.success) {
+      setCreatedBooking(res?.data);
+      setIsLoading(false);
+      setCurrentStep(1);
+      setNewBookingData(defaultBookingData);
+      setOpen(false);
+      setOpenSuccess(true);
+    } else {
+      setIsLoading(false);
+      toast.error(res?.message);
+    }
   };
 
-  // Next button status handler
+  /** -------------------
+   *  Determine if Next Button Should Be Disabled
+   *  ------------------*/
   const isDisabledNextBtn = () => {
     if (
       !newBookingData?.startDate &&
@@ -65,7 +112,7 @@ const BookingDialogBox = ({ packageItem }) => {
 
   return (
     <div>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger className="btn-primary text-base!">
           Book Now
         </DialogTrigger>
@@ -118,6 +165,7 @@ const BookingDialogBox = ({ packageItem }) => {
               </DialogClose>
             )}
 
+            {/* Back Button */}
             {currentStep > 1 && (
               <Button
                 type="button"
@@ -128,6 +176,7 @@ const BookingDialogBox = ({ packageItem }) => {
               </Button>
             )}
 
+            {/* Next Button */}
             {currentStep >= 1 && currentStep < 3 && (
               <Button
                 type="button"
@@ -139,18 +188,26 @@ const BookingDialogBox = ({ packageItem }) => {
               </Button>
             )}
 
+            {/* Confirm Button */}
             {currentStep === 3 && (
               <Button
                 type="button"
                 className="btn-secondary text-base! w-full sm:w-fit flex-1 sm:flex-none"
                 onClick={handleConfirmBook}
               >
-                Confirm
+                {isLoading ? <Loader color="#fff" size="20" /> : "Confirm"}
               </Button>
             )}
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Booking Success Modal */}
+      <BookingSuccessBox
+        openSuccess={openSuccess}
+        setOpenSuccess={setOpenSuccess}
+        createdBooking={createdBooking}
+      />
     </div>
   );
 };

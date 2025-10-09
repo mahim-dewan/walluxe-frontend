@@ -69,11 +69,14 @@ export const api = {
   // Get packages of feature walls
   getFeatureWallPackages: async () => {
     try {
-      const res = await fetch(`${process.env.BASE_API}/packages/feature-walls`,{
-        next: { revalidate: 3600 }, // Revalidate time is 6h
-      })
-      const data = await res.json()
-      return data
+      const res = await fetch(
+        `${process.env.BASE_API}/packages/feature-walls`,
+        {
+          next: { revalidate: 21600 }, // Revalidate time is 6h
+        }
+      );
+      const data = await res.json();
+      return data;
     } catch (err) {
       // Server is OFF/ Down / Network error / CORS issue
       if (err instanceof TypeError && err.message.includes("fetch")) {
@@ -84,5 +87,25 @@ export const api = {
         };
       }
     }
+  },
+
+  // // Get single package
+  getSinglePackage: async (id) => {
+    const res = await fetch(`/api/packages/${id}`);
+    const data = await res.json();
+    return data;
+  },
+
+  // Make a new booking using Proxy
+  createBooking: async (bookingData) => {
+    const res = await axios.post("/api/bookings", bookingData);
+    return res.data;
+  },
+
+  // Get single booking using Proxy
+  getSingleBooking: async (id) => {
+    const res = await fetch(`/api/bookings/${id}`);
+    const data = await res.json();
+    return data;
   },
 };

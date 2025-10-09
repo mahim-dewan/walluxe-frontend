@@ -4,7 +4,7 @@ const StepsLine = ({ allSteps, currentStep }) => {
   return (
     <div className="flex items-center justify-center mt-5">
       {allSteps?.map((step) => (
-        <div className="flex items-center">
+        <div key={step?.step} className="flex items-center">
           <div
             className={`${
               currentStep >= step.step

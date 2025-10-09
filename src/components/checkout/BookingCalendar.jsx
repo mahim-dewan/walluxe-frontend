@@ -18,10 +18,12 @@ import {
   subMonths,
 } from "date-fns";
 
-// Weekday labels
+/** -------------------
+ *  Constants
+ *  ------------------*/
+
 const daysName = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-// Demo booking list
 const initialBookings = [
   {
     id: 1,
@@ -66,6 +68,10 @@ const initialBookings = [
   },
 ];
 
+/** -------------------
+ *  Component
+ *  ------------------*/
+
 const BookingCalendar = ({
   packageItem,
   newBookingData,
@@ -77,13 +83,16 @@ const BookingCalendar = ({
   const month = currentDate.getMonth();
   const year = currentDate.getFullYear();
 
+  /** -------------------
+   *  Effect: Restore selected date if exists
+   *  ------------------*/
   useEffect(() => {
-    newBookingData?.startDate &&
-      newBookingData?.endDate &&
+    if (newBookingData?.startDate && newBookingData?.endDate) {
       setSelectedDate({
-        startDate: newBookingData?.startDate,
-        endDate: newBookingData?.endDate,
+        startDate: newBookingData.startDate,
+        endDate: newBookingData.endDate,
       });
+    }
   }, []);
 
   /** -------------------
@@ -96,15 +105,15 @@ const BookingCalendar = ({
   const prevMonth = subMonths(currentDate, 1);
   const prevMonthLastDate = getDaysInMonth(prevMonth);
 
-  // Collect all days for rendering
+  // Generate all days for calendar
   const allDays = [];
 
-  // Add previous month padding days
+  // Previous month padding days
   for (let p = firstDayIndex - 1; p >= 0; p--) {
     allDays.push({ day: prevMonthLastDate - p, isPrevDay: true });
   }
 
-  // Add current month days
+  // Current month days
   for (let d = 1; d <= totalDays; d++) {
     const thisDate = new Date(year, month, d);
     allDays.push({
@@ -115,14 +124,14 @@ const BookingCalendar = ({
   }
 
   /** -------------------
-   *  Booking Handler
+   *  Handle Booking Selection
    *  ------------------*/
   const handleSelectDate = (dateObj) => {
     let start = new Date(year, month, dateObj.day);
     let end = start;
     let daysCount = 0;
 
-    // Loop until required duration (skipping Sundays)
+    // Count working days (skip Sundays)
     while (daysCount < packageItem?.duration) {
       if (!isSunday(end)) daysCount++;
       if (daysCount < packageItem?.duration) end = addDays(end, 1);
@@ -131,7 +140,7 @@ const BookingCalendar = ({
     const startDate = format(start, "dd-MM-yyyy");
     const endDate = format(end, "dd-MM-yyyy");
 
-    // Overlap check
+    // Check overlapping bookings
     const isOverlapping = initialBookings.some((b) =>
       isWithinInterval(startOfDay(b.startDate), { start, end })
     );
@@ -141,7 +150,7 @@ const BookingCalendar = ({
         `Sorry, your selected ${packageItem?.duration}-day slot overlaps with an existing booking. Please choose another date.`
       );
     }
-
+    // Save selected
     setSelectedDate({ startDate, endDate });
     setNewBookingData((prev) => ({
       ...prev,
@@ -152,11 +161,12 @@ const BookingCalendar = ({
   };
 
   /** -------------------
-   *  JSX Rendering
+   *  JSX Render
    *  ------------------*/
   return (
     <div className="min-h-[55vh]">
       <h3 className="text-base! text-left">Booking Date</h3>
+
       {/* Selected Date Info */}
       {selectedDate ? (
         <p className="font-semibold bg-secondary text-light inline-block px-2">
@@ -203,7 +213,7 @@ const BookingCalendar = ({
               })
             );
 
-            // Check active selected range
+            // Parse selected range
             const startBook =
               selectedDate &&
               parse(selectedDate.startDate, "dd-MM-yyyy", new Date());
@@ -219,16 +229,18 @@ const BookingCalendar = ({
               });
 
             /** -------------------
-             *  Day Cell Rendering
+             *  Day Cell
              *  ------------------*/
+            const handleClick = () => {
+              d.isSunday || d.isPrevDay || isPastDay || booking
+                ? toast.error("This Date is not available for booking")
+                : handleSelectDate(d);
+            };
+
             return (
               <p
                 key={i}
-                onClick={() => {
-                  d.isSunday || d.isPrevDay || isPastDay || booking
-                    ? toast.error("This Date is not available for booking")
-                    : handleSelectDate(d);
-                }}
+                onClick={handleClick}
                 className={`border-secondary border text-dark cursor-pointer rounded-lg p-1 m-1
                   ${
                     (d.isSunday && !isPastDay) ||
