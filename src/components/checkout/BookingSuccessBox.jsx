@@ -21,7 +21,7 @@ const BookingSuccessBox = ({ openSuccess, setOpenSuccess, createdBooking }) => {
    *  Update URL when booking is created
    *  ------------------*/
   useEffect(() => {
-    setUrl(`${process.env.DOMAIN}/${createdBooking?._id}`);
+    setUrl(`${process.env.NEXT_PUBLIC_DOMAIN}/booking/${createdBooking?._id}`);
   }, [createdBooking]);
 
   /** -------------------

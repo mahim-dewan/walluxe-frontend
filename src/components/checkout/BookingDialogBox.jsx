@@ -55,7 +55,6 @@ const BookingDialogBox = ({ packageItem }) => {
   const [currentStep, setCurrentStep] = useState(allSteps[0].step);
   const [isLoading, setIsLoading] = useState(false);
   const [createdBooking, setCreatedBooking] = useState(null);
-  console.log(createdBooking);
 
   /** -------------------
    *  Confirm Booking Handler

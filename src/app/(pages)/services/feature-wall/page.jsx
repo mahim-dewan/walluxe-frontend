@@ -19,8 +19,6 @@ const featureWallTypes = [
 
 const FeatureWall = async () => {
   const { data: packages } = await api.getFeatureWallPackages();
-
-  console.log(packages);
   
   return (
     <ServiceTemplate
