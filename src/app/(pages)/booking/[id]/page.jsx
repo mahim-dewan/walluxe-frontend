@@ -3,29 +3,36 @@ import Logo from "@/components/navbar/Logo";
 import Loader from "@/components/reuseable/Loader";
 import { Badge } from "@/components/shadcn/ui/badge";
 import { Button } from "@/components/shadcn/ui/button";
-import { api } from "@/lib/api";
+
 import { format } from "date-fns";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import * as htmlToImage from "html-to-image";
 import { toast } from "sonner";
-import Image from "next/image";
+
+import { api } from "@/lib/api";
 import Cartoon from "../../../../../public/cartoon.jpg";
+import { initPayment } from "@/utils/paymentHandler";
 
 const BookingDetails = () => {
   const [bookingItem, setBookingItem] = useState(null);
   const [packageItem, setPackageItem] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDownload, setIsDownload] = useState(false);
+  const [isPaid, setIsPaid] = useState(false);
   const { id } = useParams();
   const invoiceRef = useRef();
+  const router = useRouter();
 
   useEffect(() => {
     const apiCall = async () => {
       // Booking api
       const booking = await api.getSingleBooking(id);
       setBookingItem(booking);
+      if (booking.data.payment_id) {
+        setIsPaid(true);
+      }
 
       // Package api
       const packageItem = await api.getSinglePackage(booking?.data?.packageId);
@@ -36,6 +43,9 @@ const BookingDetails = () => {
     apiCall();
   }, []);
 
+  /** ---------------
+   *  Invoice download handler
+   *  ---------------*/
   const handleDownload = async () => {
     setIsDownload(true);
     if (!invoiceRef.current) return toast.error("Couldn't download");
@@ -61,6 +71,19 @@ const BookingDetails = () => {
     } catch (error) {
       console.error("Export failed", error);
     }
+  };
+
+  /** ---------------
+   *  Payment request handler
+   *  ---------------*/
+  const handlePayment = async () => {
+    const data = {
+      booking_id: bookingItem?.data?._id,
+      package_id: packageItem?._id,
+    };
+    const res = await initPayment(data);
+    if (!res.success) return toast.info(res?.message);
+    router.push(res.url);
   };
 
   if (isLoading) return <Loader size="60" />;
@@ -161,15 +184,23 @@ const BookingDetails = () => {
                 </Badge>
               </div>
               <div className="flex items-center justify-around w-full px-2">
-                <p className="font-semibold">Pay Amount:</p>
+                <p className="font-semibold">
+                  {isPaid ? "Paid" : "Payable"} Amount:
+                </p>
                 <Badge className="text-light text-lg bg-secondary border-r-dark/50 border-b-dark/50">
                   {bookingItem?.data?.costTotal} BDT
                 </Badge>
               </div>
-              <p className="px-10 text-justify text-primary">
-                You have to pay total cost for confirm booking. Otherwise it
-                will be cancel auto after 24 hours.
-              </p>
+              {isPaid ? (
+                <p className="w-full my-2 font-semibold text-center text-secondary">
+                  Thank you {bookingItem.data.name} for confirmation.
+                </p>
+              ) : (
+                <p className="px-10 text-justify text-primary">
+                  You have to pay total cost for confirm booking. Otherwise it
+                  will be cancel auto after 24 hours.
+                </p>
+              )}
             </div>
 
             <div className="flex items-center justify-center gap-2 w-full p-2 hide-on-export">
@@ -181,14 +212,15 @@ const BookingDetails = () => {
               >
                 {isDownload ? <Loader size="20" /> : " Download Invoice"}
               </Button>
-              <Link
-                href={"/checkout/payment"}
+              <Button
+                onClick={handlePayment}
                 className={
                   "btn-secondary text-base! text-center font-semibold text-light flex-1"
                 }
+                disabled={isPaid}
               >
-                Pay
-              </Link>
+                {isPaid ? "Paid" : "Pay Now"}
+              </Button>
             </div>
           </div>
         </div>

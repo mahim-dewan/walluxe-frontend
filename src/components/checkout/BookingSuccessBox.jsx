@@ -9,19 +9,19 @@ import {
 } from "../shadcn/ui/dialog";
 import { Button } from "../shadcn/ui/button";
 import { Input } from "../shadcn/ui/input";
-import Link from "next/link";
+import { initPayment } from "@/utils/paymentHandler";
+import { useRouter } from "next/navigation";
 
 const BookingSuccessBox = ({ openSuccess, setOpenSuccess, createdBooking }) => {
   const [copied, setCopied] = useState(false);
   const [url, setUrl] = useState("");
+  const router = useRouter();
 
   /** -------------------
    *  Update URL when booking is created
    *  ------------------*/
   useEffect(() => {
-    console.log(createdBooking);
-
-    setUrl(`http://localhost:3000/booking/${createdBooking?._id}`);
+    setUrl(`${process.env.DOMAIN}/${createdBooking?._id}`);
   }, [createdBooking]);
 
   /** -------------------
@@ -30,8 +30,19 @@ const BookingSuccessBox = ({ openSuccess, setOpenSuccess, createdBooking }) => {
   const handleCopy = async () => {
     await navigator.clipboard.writeText(url);
     setCopied(true);
-
     setTimeout(() => setCopied(false), 3000);
+  };
+
+  /** ---------------
+   *  Payment request handler
+   *  ---------------*/
+  const handlePayment = async () => {
+    const data = {
+      booking_id: createdBooking?._id,
+      package_id: createdBooking?.packageId,
+    };
+    const res = await initPayment(data);
+    router.push(res.url);
   };
 
   return (
@@ -71,10 +82,12 @@ const BookingSuccessBox = ({ openSuccess, setOpenSuccess, createdBooking }) => {
             24h. Thank you
           </p>
           <DialogFooter>
-            <Link href={"/checkout/payment"} className={"btn-primary text-sm text-center"}>
+            <Button
+              onClick={handlePayment}
+              className={"btn-primary text-sm text-center"}
+            >
               Make Payment
-            </Link>
-            {/* <Button className={"btn-primary"}>Make Payment</Button> */}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

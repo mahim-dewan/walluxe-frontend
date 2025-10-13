@@ -59,7 +59,7 @@ const FinalCheck = ({ packageItem, newBookingData }) => {
           {/* Optional Message */}
           {newBookingData?.message && (
             <TableRow className="bg-dark/20 text-dark">
-              <TableHead className="border border-gray w-1/3">Message</TableHead>
+              <TableHead className="border font-semibold border-gray w-1/3">Message</TableHead>
               <TableCell className="border border-gray w-2/3 text-right break-words whitespace-normal">
                 {newBookingData.message}
               </TableCell>

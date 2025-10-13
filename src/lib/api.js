@@ -108,4 +108,11 @@ export const api = {
     const data = await res.json();
     return data;
   },
+
+  // Initiate payment using Proxy
+  initPayment: async (data) => {
+    const res = await axios.post(`/api/payment`, data);
+    console.log(res.data);
+    return res.data;
+  },
 };
