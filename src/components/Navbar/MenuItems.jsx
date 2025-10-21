@@ -45,14 +45,20 @@ const MenuItems = () => {
 
           <NavigationMenuContent className={"bg-light shadow-md text-dark"}>
             <ul className="w-[200px] ">
-              <li className="hover:bg-gray rounded-md p-2 cursor-pointer">
-                <Link href={"/services/media-wall"} className="text-base ">
+              <li>
+                <Link
+                  href={"/services/media-wall"}
+                  className="text-base hover:bg-gray rounded-md p-2 cursor-pointer block"
+                >
                   Media Wall Installation
                 </Link>
               </li>
 
-              <li className="hover:bg-gray rounded-md p-2 cursor-pointer">
-                <Link href={"/services/feature-wall"} className="text-base ">
+              <li>
+                <Link
+                  href={"/services/feature-wall"}
+                  className="text-base hover:bg-gray rounded-md p-2 cursor-pointer block "
+                >
                   Feature Wall Installation
                 </Link>
               </li>
@@ -61,25 +67,17 @@ const MenuItems = () => {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={isActive("/gallery")}>
-            <Link href={"/gallery"} className="text-base xl:text-lg">
-              Gallery
-            </Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={isActive("/blogs", true)}>
-            <Link href={"/"} className="text-base xl:text-lg">
-              Blogs
+          <NavigationMenuLink asChild className={isActive("/portfolio")}>
+            <Link href={"/portfolio"} className="text-base xl:text-lg">
+              Portfolio
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={`btn-primary text-md`}>
-            <Link href={"/"} className="text-base 2xl:text-lg">
-              Book Now
+            <Link href={"/contact"} className="text-base 2xl:text-lg mx-2">
+              Contact
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
