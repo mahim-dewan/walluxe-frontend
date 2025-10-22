@@ -39,7 +39,6 @@ export default function ServiceAreaMap() {
   useEffect(() => {
     api.getServiceAreas().then((data) => {
       setAreas(data?.data);
-      setMessage(data?.message);
     });
   }, []);
 

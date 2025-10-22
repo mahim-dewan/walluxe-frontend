@@ -114,4 +114,10 @@ export const api = {
     const res = await axios.post(`/api/payment/init`, data);
     return res.data;
   },
+
+  // Create contact message using Proxy
+  createContactMessage: async (data) => {
+    const res = await axios.post(`/api/contacts`, data);    
+    return res.data;
+  },
 };

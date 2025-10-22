@@ -6,6 +6,7 @@ import { Mail, MessageSquare, Phone, Send, User } from "lucide-react";
 import React, { useState } from "react";
 import Link from "next/link";
 import Loader from "@/components/reuseable/Loader";
+import { api } from "@/lib/api";
 
 // ✅ Reusable Input Field
 const InputField = ({ id, name, type, placeholder, value, onChange, Icon }) => (
@@ -78,6 +79,7 @@ const Contact = () => {
   const [isSent, setIsSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState(defaultFormData);
+  const [error, setError] = useState("");
 
   // Handle input changes
   const handleChange = (e) => {
@@ -88,15 +90,23 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log(formData);
-    setIsSent(true);
-    setFormData(defaultFormData);
-    setTimeout(() => {
+
+    const res = await api.createContactMessage(formData);
+
+    if (res.success) {
+      setIsSent(true);
+      setFormData(defaultFormData);
+      setError("");
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
+      setTimeout(() => {
+        setIsSent(false);
+      }, 10000);
+    } else {
+      setError(res?.message);
       setIsLoading(false);
-    }, 3000);
-    setTimeout(() => {
-      setIsSent(false);
-    }, 10000);
+    }
   };
 
   return (
@@ -211,6 +221,8 @@ const Contact = () => {
               onChange={handleChange}
               Icon={MessageSquare}
             />
+
+            {error && <p className="m-0 text-primary">{error}</p>}
 
             {/* Submit Button */}
             <div className="pt-2">
