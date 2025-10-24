@@ -116,7 +116,7 @@ const packageItems = [
 ];
 
 const cover =
-  "https://images.squarespace-cdn.com/content/v1/6854409c4933b941d0697a92/1751151963320-EB0QFEDDOKR5KVE60WKS/entry-elegance-fireplace-wall-miami.png?format=300w";
+"https://i.pinimg.com/1200x/1e/18/a2/1e18a2f468694aa9fd106d2f54f46926.jpg"
 
 // Types of Media Walls
 const mediaWallTypes = [
