@@ -1,14 +1,26 @@
-import Loader from "@/components/reuseable/Loader";
+import InfoMessage from "@/components/reuseable/InfoMessage";
+import ScrollToTop from "@/components/reuseable/ScrollToTop";
 import { api } from "@/lib/api";
 import Image from "next/image";
 import Link from "next/link";
-import React, { Suspense } from "react";
+import React from "react";
 
 const Portfolio = async () => {
-  const projects = await api.getAllProjects();
+  const projects = await api.getAllProjects(); // api call
+
+  // error message
+  if (!projects?.success) {
+    return (
+      <InfoMessage
+        message={
+          projects?.message || "Something went wrong. Please try again later"
+        }
+      />
+    );
+  }
 
   return (
-    <Suspense fallback={<Loader />}>
+    <ScrollToTop>
       <div className="p-2">
         <h1 className="py-5 text-center">Our Projects</h1>
         {Array.from(
@@ -40,6 +52,7 @@ const Portfolio = async () => {
                           />
                           <Link
                             href={`/portfolio/${item?._id}`}
+                            scroll={true}
                             className="absolute bottom-2 left-2 mr-2 text-light bg-dark/50 rounded-md px-2 line-clamp-1 hover:underline active:underline"
                           >
                             {item?.title}
@@ -59,6 +72,7 @@ const Portfolio = async () => {
                         />
                         <Link
                           href={`/portfolio/${item?._id}`}
+                          scroll={true}
                           className="absolute bottom-2 left-2 mr-2 text-light bg-dark/50 rounded-md px-2 line-clamp-1 hover:underline active:underline"
                         >
                           {item?.title}
@@ -72,7 +86,7 @@ const Portfolio = async () => {
           }
         )}
       </div>
-    </Suspense>
+    </ScrollToTop>
   );
 };
 
