@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <div>
       {/* Logo  */}
-      <div className="border-t border-gray p-2">
+      <div className="border-t border-gray px-4 py-2">
         <Logo />
         <p>Your trusted partner for stunning media & feature walls.</p>
       </div>

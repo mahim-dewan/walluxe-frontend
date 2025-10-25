@@ -23,7 +23,48 @@ export const api = {
     }
   },
 
-  // Get All team members using proxy api
+  // Get all projects
+  getAllProjects: async () => {
+    try {
+      const res = await fetch(
+        `${process.env.BASE_API}/projects`,
+        { next: { revalidate: 3600 } } // Revalidation for one hour
+      );
+      const data = await res.json();
+
+      return data;
+    } catch (err) {
+      // Server is OFF/ Down / Network error / CORS issue
+      if (err instanceof TypeError && err.message.includes("fetch")) {
+        return {
+          success: false,
+          message: "Server is unreachable. Please try again later.",
+          data: [],
+        };
+      }
+    }
+  },
+
+  // Get single project
+  getSingleProject: async (id) => {
+    try {
+      const res = await fetch(`${process.env.BASE_API}/projects/${id}`);
+      const data = await res.json();
+
+      return data;
+    } catch (err) {
+      // Server is OFF/ Down / Network error / CORS issue
+      if (err instanceof TypeError && err.message.includes("fetch")) {
+        return {
+          success: false,
+          message: "Server is unreachable. Please try again later.",
+          data: [],
+        };
+      }
+    }
+  },
+
+  // Get all team members using proxy api
   getAllTeamMembers: async () => {
     const res = await fetch(`/api/team`);
     const data = await res.json();
@@ -31,7 +72,7 @@ export const api = {
     return data;
   },
 
-  // Get All service area using proxy api
+  // Get all service area using proxy api
   getServiceAreas: async () => {
     const res = await fetch("/api/serviceArea");
     const data = await res.json();
@@ -60,7 +101,7 @@ export const api = {
     }
   },
 
-  // Create Subscriber using Proxy
+  // Create subscriber using Proxy
   createSubscriber: async (newSubscriber) => {
     const res = await axios.post("/api/subscribes", newSubscriber);
     return res.data;
@@ -111,7 +152,13 @@ export const api = {
 
   // Initiate payment using Proxy
   initPayment: async (data) => {
-    const res = await axios.post(`/api/payment`, data);
+    const res = await axios.post(`/api/payment/init`, data);
+    return res.data;
+  },
+
+  // Create contact message using Proxy
+  createContactMessage: async (data) => {
+    const res = await axios.post(`/api/contacts`, data);
     return res.data;
   },
 };

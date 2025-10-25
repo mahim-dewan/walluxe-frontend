@@ -72,13 +72,19 @@ const MenuSlidebar = () => {
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className={"shadow-md bg-light"}>
                   <ul className="w-[200px]">
-                    <li className="active:bg-gray rounded-md p-2 cursor-pointer">
-                      <Link href={"/services/media-wall"}>
+                    <li>
+                      <Link
+                        href={"/services/media-wall"}
+                        className="active:bg-gray rounded-md p-2 cursor-pointer block"
+                      >
                         Media Wall Installation
                       </Link>
                     </li>
-                    <li className="active:bg-gray rounded-md p-2 cursor-pointer">
-                      <Link href={"/services/feature-wall"}>
+                    <li>
+                      <Link
+                        href={"/services/feature-wall"}
+                        className="active:bg-gray rounded-md p-2 cursor-pointer block "
+                      >
                         Feature Wall Installation
                       </Link>
                     </li>
@@ -87,23 +93,14 @@ const MenuSlidebar = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuLink asChild className={isActive("/gallery")}>
-                  <Link href={"/"}>Gallery</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  className={isActive("/blogs", true)}
-                >
-                  <Link href={"/"}>Blogs</Link>
+                <NavigationMenuLink asChild className={isActive("/portfolio")}>
+                  <Link href={"/portfolio"}>Portfolio</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild className={"btn-primary ml-2"}>
-                  <Link href={"/"}>Book Now</Link>
+                  <Link href={"/contact"}>Contact</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>

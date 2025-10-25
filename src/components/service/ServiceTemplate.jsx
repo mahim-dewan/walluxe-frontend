@@ -17,7 +17,7 @@ const ServiceTemplate = ({ children, cover, service, packageItems = [] }) => {
     <div>
       {/* Cover  */}
       <div className="h-40 md:h-72 w-full relative">
-        <Image src={cover} alt="feature wall" fill className="object-cover" />
+        <Image src={cover} alt={service} fill className="object-cover" />
 
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/60"></div>

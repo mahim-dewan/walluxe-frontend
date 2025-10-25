@@ -20,23 +20,32 @@ const BookingDetails = () => {
   const [packageItem, setPackageItem] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDownload, setIsDownload] = useState(false);
-  const [isPaid, setIsPaid] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState(null);
+  const [tranId, setTranId] = useState(null);
   const { id } = useParams();
   const invoiceRef = useRef();
   const router = useRouter();
 
   useEffect(() => {
     const apiCall = async () => {
-      // Booking api
+      // Booking api call
       const booking = await api.getSingleBooking(id);
       setBookingItem(booking);
-      if (booking.data.payment_id) {
-        setIsPaid(true);
+
+      // Set paid status
+      if (booking?.data?.payment_status === "PAID") {
+        setPaymentStatus("PAID");
+      } else if (booking?.data?.payment_status === "FAILED") {
+        setPaymentStatus("FAILED");
       }
 
-      // Package api
-      const packageItem = await api.getSinglePackage(booking?.data?.packageId);
-      setPackageItem(packageItem?.data);
+      // Package api call
+      if (booking?.success) {
+        const packageItem = await api.getSinglePackage(
+          booking?.data?.packageId
+        );
+        setPackageItem(packageItem?.data);
+      }
       setIsLoading(false);
     };
 
@@ -83,6 +92,7 @@ const BookingDetails = () => {
     };
     const res = await initPayment(data);
     if (!res.success) return toast.info(res?.message);
+    setTranId(res.tran_id);
     router.push(res.url);
   };
 
@@ -185,15 +195,19 @@ const BookingDetails = () => {
               </div>
               <div className="flex items-center justify-around w-full px-2">
                 <p className="font-semibold">
-                  {isPaid ? "Paid" : "Payable"} Amount:
+                  {paymentStatus === "PAID" ? "PAID " : "Payable"} Amount:
                 </p>
                 <Badge className="text-light text-lg bg-secondary border-r-dark/50 border-b-dark/50">
                   {bookingItem?.data?.costTotal} BDT
                 </Badge>
               </div>
-              {isPaid ? (
+              {paymentStatus === "PAID" ? (
                 <p className="w-full my-2 font-semibold text-center text-secondary">
                   Thank you {bookingItem.data.name} for confirmation.
+                </p>
+              ) : paymentStatus === "FAILED" ? (
+                <p className="px-10 text-center w-full text-primary">
+                  ❌ Payment failed. Please try again
                 </p>
               ) : (
                 <p className="px-10 text-justify text-primary">
@@ -217,9 +231,9 @@ const BookingDetails = () => {
                 className={
                   "btn-secondary text-base! text-center font-semibold text-light flex-1"
                 }
-                disabled={isPaid}
+                disabled={paymentStatus === "PAID" ? true : false}
               >
-                {isPaid ? "Paid" : "Pay Now"}
+                {paymentStatus === "PAID" ? "Paid" : "Pay Now"}
               </Button>
             </div>
           </div>

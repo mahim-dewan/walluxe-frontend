@@ -36,7 +36,7 @@ const RecentWork = async () => {
                     className="rounded-md object-fit"
                   />
                   <Link
-                    href={`/projects/${item?._id}`}
+                    href={`/portfolio/${item?._id}`}
                     className="absolute bottom-2 left-2 mr-2 text-light bg-dark/50 rounded-md px-2 line-clamp-1 hover:underline active:underline"
                   >
                     {item?.title}
@@ -56,7 +56,7 @@ const RecentWork = async () => {
                   className="rounded-md object-cover"
                 />
                 <Link
-                  href={`/projects/${item?._id}`}
+                  href={`/portfolio/${item?._id}`}
                   className="absolute bottom-2 left-2 mr-2 text-light bg-dark/50 rounded-md px-2 line-clamp-1 hover:underline active:underline"
                 >
                   {item?.title}

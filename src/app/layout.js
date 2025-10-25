@@ -39,7 +39,9 @@ export default function RootLayout({ children }) {
         className={`${inter.className} ${inter.variable} ${saira.variable} ${roboto.variable}`}
       >
         <Header />
-        <main className=" min-h-screen max-w-[1860px] mx-auto">{children}</main>
+        <main className=" min-h-screen max-w-[1760px] mx-auto overflow-hidden border border-gray 3xl:my-5  3xl:rounded-lg">
+          {children}
+        </main>
         <Toaster richColors position={`top-right`} duration={3000} />
         <Footer />
       </body>
