@@ -1,28 +1,10 @@
+import InfoMessage from "@/components/reuseable/InfoMessage";
+import { api } from "@/lib/api";
 import { BadgeCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const project = {
-  _id: "68d2d29a2ada135cd3e31c29",
-  title: "Bespoke Media Wall",
-  subtitle: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. ",
-  description:
-    "Transform your living space with our bespoke luxury feature wall, a stunning centrepiece that blends elegance and functionality. With an option to have a built in ambient warm LED lighting, this design creates a cosy atmosphere. Encased in our Paneluxe premium luxury wall panels, the installation exudes modern refinement. Elevate your interior with a timeless statement piece that combines high-end style.",
-  category: "Media Wall",
-  package_id: "sdkfwoeir234orijdklf22",
-  images: [
-    "https://images.squarespace-cdn.com/content/v1/6854409c4933b941d0697a92/1751151963320-EB0QFEDDOKR5KVE60WKS/entry-elegance-fireplace-wall-miami.png?format=300w",
-    "https://images.squarespace-cdn.com/content/v1/6854409c4933b941d0697a92/1751151950736-M0247PTRN6WJ1DEHIJ5P/corner-warmth-tv-wall-san-diego.png?format=300w",
-    "https://images.squarespace-cdn.com/content/v1/6854409c4933b941d0697a92/f8fdc7ba-7130-4997-9dfe-de1d2dc7879b/Modern+Living+Room+with+Full+Wall+Board+and+Batten+Design.png?format=500w",
-  ],
-  features: ["Standard color options", "2 years warranty"],
-  createdAt: "2025-09-23T17:02:18.479Z",
-  updatedAt: "2025-09-23T17:02:18.479Z",
-  __v: 0,
-};
-
-// Design process data
 const designProcess = [
   "Visit our showroom",
   "Bring your design choice or choose from one of our designs",
@@ -35,11 +17,14 @@ const designProcess = [
   "Once accepted secure with a deposit and agree a fitting date",
 ];
 
-const ProjectDeatails = ({ params }) => {
+const ProjectDeatails = async ({ params }) => {
   const id = params.id;
+  const { data: project } = await api.getSingleProject(id);
+
+  if (!project) return <InfoMessage message={"Not found this project"} />;
 
   return (
-    <div>
+    <div className="min-h-screen">
       {/* Title, subtitle, CTA and Images */}
       <div className="bg-[url('/portfolioDetailsBG.jpeg')] bg-cover bg-center w-full p-2">
         <div className="md:flex gap-4 items-start md:items-center justify-evenly md:py-10">
@@ -56,6 +41,7 @@ const ProjectDeatails = ({ params }) => {
               <Image
                 key={i}
                 src={project?.images[i]}
+                alt={project?.category}
                 width={1000}
                 height={1000}
                 className={`w-44 h-52 md:w-52 md:h-60 xl:w-64 xl:h-72 border-4 border-secondary object-cover rounded-xl mx-auto rotate-180 md:rotate-0 ${
@@ -93,7 +79,7 @@ const ProjectDeatails = ({ params }) => {
           <div className="my-2">
             <h2 className="mt-5">Materials</h2>
             <div className="flex flex-col gap-2 my-2">
-              {project?.features?.map((f, i) => (
+              {project?.materials?.map((f, i) => (
                 <div key={i} className="flex gap-2">
                   <BadgeCheck className="text-secondary" />
                   {f}
@@ -104,8 +90,8 @@ const ProjectDeatails = ({ params }) => {
         </div>
 
         {/* Design Process and image  */}
-        <div className="lg:flex items-center justify-evenly gap-4">
-          <div className="my-5">
+        <div className="lg:flex items-start justify-evenly gap-4 my-10">
+          <div className="my-5 flex-1">
             <h3 className="">Design Services And Process</h3>
             <p>
               We offer a complimentary design service using the latest 3D
@@ -129,9 +115,10 @@ const ProjectDeatails = ({ params }) => {
           </div>
           <Image
             src={project?.images[3] || project?.images[2]}
+            alt={project?.category}
             width={1000}
             height={1000}
-            className="rounded-lg"
+            className="rounded-lg flex-1 lg:max-w-1/2 lg:max-h-1/2 object-cover "
           />
         </div>
       </div>
