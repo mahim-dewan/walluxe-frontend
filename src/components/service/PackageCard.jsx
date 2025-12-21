@@ -4,30 +4,6 @@ import { Check, Wrench } from "lucide-react";
 import Image from "next/image";
 import BookingDialogBox from "../checkout/BookingDialogBox";
 
-// const packageItem = {
-//   title: "Luxury Media Wall Package",
-
-//   subtitle:
-//     "High-end media wall with premium marble finishing and LED lighting.",
-
-//   price: 3000,
-
-//   category: "Media Wall",
-
-//   duration: "3 days",
-
-//   features: ["3D visualization", "Smart LED integration", "Premium marble"],
-
-//   materials: ["Italian Marble", "Gypsum Board"],
-
-//   image:
-//     "https://images.squarespace-cdn.com/content/v1/6854409c4933b941d0697a92/1751151963320-EB0QFEDDOKR5KVE60WKS/entry-elegance-fireplace-wall-miami.png?format=300w",
-
-//   rating: { average: 4.8, count: 32 },
-
-//   tags: ["media wall", "luxury", "interior design"],
-// };
-
 const PackageCard = ({ packageItem }) => {
   return (
     <div className="w-[370px] sm:w-[400px] lg:w-[420px] 2xl:w-[450px] shadow-lg rounded-lg overflow-hidden border border-gray flex flex-col mx-auto">
@@ -96,9 +72,11 @@ const PackageCard = ({ packageItem }) => {
         <div className="flex items-center justify-between mt-4">
           <p>
             <span className="text-secondary font-bold text-lg">
-              ${packageItem?.price}{" "}
+              {packageItem?.price} bdt
             </span>
-            <span className="text-sm lg:text-base text-dark/70">/sq ft</span>
+            <span className="text-sm lg:text-base text-dark/70">
+              /per sq ft
+            </span>
           </p>
           <BookingDialogBox packageItem={packageItem} />
         </div>

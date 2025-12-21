@@ -130,6 +130,26 @@ export const api = {
     }
   },
 
+  // Get packages of media walls
+  getMediaWallPackages: async () => {
+    try {
+      const res = await fetch(`${process.env.BASE_API}/packages/media-walls`, {
+        next: { revalidate: 21600 }, // Revalidate time is 6h
+      });
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      // Server is OFF/ Down / Network error / CORS issue
+      if (err instanceof TypeError && err.message.includes("fetch")) {
+        return {
+          success: false,
+          message: "Server is unreachable. Please try again later.",
+          data: [],
+        };
+      }
+    }
+  },
+
   // // Get single package
   getSinglePackage: async (id) => {
     const res = await fetch(`/api/packages/${id}`);

@@ -8,6 +8,7 @@ import FaqAccordion from "@/components/home/FaqAccordion";
 import NewsLetter from "@/components/home/NewsLetter";
 import { Suspense } from "react";
 import Loader from "@/components/reuseable/Loader";
+import Feauture from "@/components/home/Feauture";
 
 const features = [
   { url: "/hero-section/completed.png", title: "5000+ Walls Completed" },
@@ -62,6 +63,9 @@ export default function Home() {
           </span>
         ))}
       </div>
+
+      {/* Feautures  */}
+      <Feauture />
 
       {/* Recent five works  */}
       <Suspense fallback={<Loader />}>

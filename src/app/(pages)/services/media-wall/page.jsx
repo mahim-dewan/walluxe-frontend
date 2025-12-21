@@ -1,122 +1,10 @@
 import ServiceTemplate from "@/components/service/ServiceTemplate";
 import WallTypes from "@/components/service/WallTypes";
+import { api } from "@/lib/api";
 import React from "react";
 
-// Demo Data
-const packageItems = [
-  {
-    _id: 1,
-    title: "Basic Feature Wall",
-    subtitle: "Simple & Affordable",
-    description:
-      "An entry-level package for homeowners who want a clean and modern look without breaking the bank.",
-    price: 5000,
-    currency: "BDT",
-    image:
-      "https://images.squarespace-cdn.com/content/v1/6854409c4933b941d0697a92/1751151963320-EB0QFEDDOKR5KVE60WKS/entry-elegance-fireplace-wall-miami.png?format=300w",
-    features: [
-      "Plain textured finish",
-      "Moisture resistant coating",
-      "Standard color options",
-      "2 years warranty",
-    ],
-    category: "Wall Design",
-    isPopular: false,
-  },
-  {
-    _id: 2,
-    title: "Classic Feature Wall",
-    subtitle: "Timeless Design",
-    description:
-      "A perfect balance of style and durability with elegant textures that suit any living space.",
-    price: 8000,
-    currency: "BDT",
-    image:
-      "https://images.squarespace-cdn.com/content/v1/6854409c4933b941d0697a92/1751151950736-M0247PTRN6WJ1DEHIJ5P/corner-warmth-tv-wall-san-diego.png?format=300w",
-    features: [
-      "Premium textured panels",
-      "Scratch-resistant surface",
-      "Wide color palette",
-      "3 years warranty",
-    ],
-    category: "Wall Design",
-    isPopular: false,
-  },
-  {
-    _id: 3,
-    title: "Modern Feature Wall",
-    subtitle: "Contemporary Style",
-    description:
-      "Designed for modern homes with sleek finishes and bold textures that make a statement.",
-    price: 10000,
-    currency: "BDT",
-    image:
-      "https://images.squarespace-cdn.com/content/v1/6854409c4933b941d0697a92/1751151975301-TFANVPM876LW0J7ZDMJC/essential-living-wall-seattle.png?format=300w",
-    features: [
-      "Premium textured panels",
-      "Scratch-resistant surface",
-      "Wide color palette",
-      "3 years warranty",
-      "3D patterns",
-      "Customizable designs",
-      "Eco-friendly material",
-      "4 years warranty",
-    ],
-    category: "Wall Design",
-    isPopular: true,
-  },
-  {
-    _id: 4,
-    title: "Premium Feature Wall",
-    subtitle: "Luxury & Elegance",
-    description:
-      "A luxury wall package crafted with high-end materials and expert finishing touches.",
-    price: 15000,
-    currency: "BDT",
-    image:
-      "https://images.squarespace-cdn.com/content/v1/6854409c4933b941d0697a92/f8fdc7ba-7130-4997-9dfe-de1d2dc7879b/Modern+Living+Room+with+Full+Wall+Board+and+Batten+Design.png?format=500w",
-    features: [
-      "Premium textured panels",
-      "Scratch-resistant surface",
-      "Wide color palette",
-      "3 years warranty",
-      "3D patterns",
-      "Customizable designs",
-      "Eco-friendly material",
-      "4 years warranty",
-      "Imported 3D panels",
-      "Heat & moisture resistant",
-      "Custom patterns & colors",
-      "5 years warranty",
-      "Professional installation included",
-    ],
-    category: "Wall Design",
-    isPopular: true,
-  },
-  {
-    _id: 5,
-    title: "Deluxe Feature Wall",
-    subtitle: "Ultimate Customization",
-    description:
-      "The top-tier package with fully personalized designs, premium materials, and long-lasting durability.",
-    price: 20000,
-    currency: "BDT",
-    image:
-      "https://images.squarespace-cdn.com/content/v1/6854409c4933b941d0697a92/117c3a2e-b42f-49dc-9789-505deb712eda/chicago-media-wall-fireplace-02.jpeg?format=1500w",
-    features: [
-      "Exclusive designer panels",
-      "Acoustic & thermal insulation",
-      "Custom 3D artwork",
-      "Lifetime warranty",
-      "VIP installation service",
-    ],
-    category: "Wall Design",
-    isPopular: true,
-  },
-];
-
 const cover =
-"https://i.pinimg.com/1200x/1e/18/a2/1e18a2f468694aa9fd106d2f54f46926.jpg"
+  "https://i.pinimg.com/1200x/1e/18/a2/1e18a2f468694aa9fd106d2f54f46926.jpg";
 
 // Types of Media Walls
 const mediaWallTypes = [
@@ -129,7 +17,9 @@ const mediaWallTypes = [
   "Custom Built-In Shelves Media Wall",
 ];
 
-const MediaWall = () => {
+const MediaWall = async () => {
+  const { data: packageItems } = await api.getMediaWallPackages();
+
   return (
     <div>
       <ServiceTemplate
